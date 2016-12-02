@@ -1,0 +1,22 @@
+Import sqlite3.
+Initialize a connection to factbook.db using the connect() method, and store it in the variable conn.
+Use conn, the execute() method, and the fetchall() method to fetch all the records in the facts table. Assign the result to the facts variable.
+Print out the facts variable.
+Count the number of items in facts, and assign the result to facts_count.
+
+import sqlite3
+conn = sqlite3.connect("factbook.db")
+facts = conn.execute("SELECT * FROM facts;").fetchall()
+print(facts)
+facts_count = len(facts)
+
+
+Use the COUNT aggregation function to count the number of non-null values in the birth_rate column of the facts table
+Extract the integer value from the result, and assign to birth_rate_count.
+Print out birth_rate_count.
+
+conn = sqlite3.connect("factbook.db")
+birth_rate_tuple = conn.execute("SELECT COUNT(birth_rate) FROM facts;").fetchall()
+birth_rate_count = birth_rate_tuple[0][0]
+print(birth_rate_count)
+

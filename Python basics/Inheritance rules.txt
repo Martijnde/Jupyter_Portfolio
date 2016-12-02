@@ -1,0 +1,10 @@
+Inheritance rules
+
+When you use a variable anywhere in a Python script, the Python interpreter will look for the value of that variable using some simple rules:
+•First start with the local scope, if any. If the variable is defined here, use the value.
+•Look at any enclosing scopes, starting with the innermost. These are "outside" local scopes. If the variable is defined in any of them, use the value.
+•Look in the global scope. If the variable is there, use the value.
+•Finally, look in the built-in functions. 
+•If no value is found, an error will be thrown.
+
+A simple way to remember this is LEGBE, which stands for "Local, Enclosing, Global, Built-ins, Error".

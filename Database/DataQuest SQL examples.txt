@@ -1,0 +1,32 @@
+select Major, Median, Unemployed
+
+from recent_grads
+
+where Median >= 10000 OR Unemployed <= 1000
+
+limit 20;
+
+
+
+#There is a certain class of questions that can't be answered using just the techniques we've learned so far. If we wanted to write a query that returned all 
+#Engineering majors that either had majority women or an unemployment rate below the August 2015 unemployment rate of 5.1%, we'll need to use parentheses to 
+#express this more complex logic. The 3 raw conditions we'll need: Major_category = 'Engineering' ShareWomen >= 0.5 Unemployment_rate < 0.051
+select Major, Major_category, ShareWomen, Unemployment_rate
+from recent_grads
+where (Major_category = 'Engineering') and (ShareWomen > 0.5 or Unemployment_rate < 0.051);
+
+
+
+
+#The following code selects the Employed column, ordered in ascending order (low to high), and limits the results to the first 10:
+select Employed
+from recent_grads
+order by Employed asc
+limit 10;
+
+
+#Return the values in the Major column in reverse alphabetical order. Limit the results to just the first 10 results.
+select Major
+from recent_grads
+order by Major desc
+limit 10;

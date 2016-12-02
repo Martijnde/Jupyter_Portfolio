@@ -1,0 +1,89 @@
+#First lets create a new folder on the Cloudera VM:
+
+mkdir /home/cloudera/bigdataintroduction
+
+#Change the current direction to the new foler
+
+cd /home/cloudera/bigdataintroduction
+
+#Check if new folder is empty:
+
+ls
+
+#Open text editor and copy data from assigment to folder to create map and reducer Python files:
+
+gedit wordcount_mapper.py
+#and:
+gedit wordcount_reducer.py
+
+#then make sure linux can work with these files:
+
+chmod +x wordcount_reducer.py
+#and:
+chmod +x wordcount_mapper.py
+
+Go to home folder:
+
+cd ~/
+
+#Create some data:
+
+echo "A long time ago in a galaxy far far away" > /home/cloudera/bigdataintroduction/testfile1
+#and
+echo "Another episode of Star Wars" > /home/cloudera/bigdataintroduction/testfile2
+
+#Make the files exacutable:
+
+chmod +x testfile1
+#and 
+chmod +x testfile2
+
+#make hdfs directory
+
+hdfs dfs -mkdir user/cloudera/input
+
+#put the files in Hadoop  
+
+hdfs dfs -put /home/cloudera/bigdataintroduction/testfile1 /user/cloudera/input
+#and
+hdfs dfs -put /home/cloudera/bigdataintroduction/testfile2 /user/cloudera/input
+
+#check if files are in hadoop
+
+hdfs dfs -ls /user/cloudera/input
+
+#show files togheter:
+
+hdfs dfs -cat /user/cloudera/input/testfile* 
+
+#run streaming command:
+
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar \
+   -input /user/cloudera/input/testfile* \
+   -output /user/cloudera/output_new_nieuwste \
+   -mapper /home/cloudera/bigdataintroduction/wordcount_mapper.py \
+   -reducer /home/cloudera/bigdataintroduction/wordcount_reducer.py
+   
+# check output:
+
+hdfs dfs -cat /user/cloudera/output_new_nieuwste/part-00000
+
+# view outpuut direction
+
+hdfs dfs -ls /user/cloudera/output_new_nieuwste
+
+#change reduce tasks to 0, ##watch out change output direction !!!
+
+hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming.jar \
+   -input /user/cloudera/input/testfile* \
+   -output /user/cloudera/output_new_nieuwste_0 \
+   -mapper /home/cloudera/bigdataintroduction/wordcount_mapper.py \
+   -reducer /home/cloudera/bigdataintroduction/wordcount_reducer.py
+   -numReduceTasks 0
+
+# view outpuut direction
+
+hdfs dfs -ls /user/cloudera/output_new_nieuwste_reduce0
+
+#end.
+
